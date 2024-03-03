@@ -1,0 +1,22 @@
+{
+  "lang.countryflag": "\uD83C\uDDF7\uD83C\uDDFA",
+
+  "start.message": "Привет, %{}%! Я - бот для управления сессиями <b>ngrok</b>.",
+  "success.message": "Операция успешно выполнена.",
+  "error.message": "<b>[Ошибка]:</b> <span class=\"tg-spoiler\">%{}%</span>",
+  "unknown.command.message": "Неизвестная команда.",
+
+  "permissons.getsecretkey": "Введите ключевое слово:",
+  "permissions.cancel": "well well well...",
+
+  "ngrok.message": "Актвиные сессии:",
+  "ngrok.error": "Нет активных ngrok сессий.",
+
+  "inlinebutton.left": "<<",
+  "inlinebutton.right": ">>",
+  "inlinebutton.empty": " ",
+  "inlinebutton.remove": "❌",
+
+  "button.sessions": "Информация о сессиях",
+  "button.changelang": "%{}% Сменить язык %{}%"
+}
