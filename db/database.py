@@ -97,6 +97,6 @@ class dbUsersWorker(dbWorker):
     def setUserPermission(self, userId, permission):
         self.setInUser(userId, 'permission', permission)
 
-    def getUserNgrokApi(self, userId):
-        ngrokApi = self.getFromUser(userId, 'ngrokapi')
+    def getUserNgrokAPIs(self, userId):
+        ngrokApi = self.getFromUser(userId, 'ngrokapis')
         return ngrokApi

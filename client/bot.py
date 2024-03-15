@@ -8,6 +8,7 @@ import json
 import logging
 from modules.ngrokConnect import NgrokWorker
 
+# docker run --net=host -it -e NGROK_AUTHTOKEN=2dRFvmzXNWzlEb5jJORCJAOoyZ2_64w38XZkWqZJ7CE8TJYBZ --name ngrok-container ngrok/ngrok:latest http 2468
 # SETTINGS
 const = ConstPlenty()
 botConfig = getConfigObject('config/bot.ini', const.commonPath)
@@ -61,9 +62,8 @@ async def startHandler(message: types.Message):
         await message.answer(getTranslation(userInfo.userId, 'permissons.getsecretkey'), parse_mode='HTML')
         return
 
-def getNgrokSessions(userId):
-    userNgrokApi = dbUsers.getUserNgrokApi(userId)
-    ngrokConnection = NgrokWorker(userNgrokApi)
+def getNgrokSessions(ngrokApi):
+    ngrokConnection = NgrokWorker(ngrokApi)
     sessions = ngrokConnection.getSessions()
     return sessions
 
@@ -76,13 +76,15 @@ def isSessionsCommand(userId, userText):
     return userText in ['/sessions', f'/sessions@{const.telegram.alias}', getTranslation(userId, 'button.sessions')]
 
 async def sendSessions(userId):
-    ngrokSessions = getNgrokSessions(userId)
-    mainKeyboard = getMainKeyboard(userId)
-    if ngrokSessions:
-        await bot.send_message(userId, getTranslation(userId, 'ngrok.message'), parse_mode='HTML')
-        for session in ngrokSessions:
-            await bot.send_message(userId, getTextWithNgrokUrls(session), reply_markup=mainKeyboard, parse_mode='HTML')
-    else: await bot.send_message(userId, getTranslation(userId, 'ngrok.error'), reply_markup=mainKeyboard, parse_mode='HTML')
+    userNgrokAPIs = dbUsers.getUserNgrokAPIs(userId)
+    for ngrokApi in userNgrokAPIs:
+        ngrokSessions = getNgrokSessions(ngrokApi)
+        mainKeyboard = getMainKeyboard(userId)
+        if ngrokSessions:
+            await bot.send_message(userId, getTranslation(userId, 'ngrok.message'), disable_notification=True, parse_mode='HTML')
+            for session in ngrokSessions:
+                await bot.send_message(userId, getTextWithNgrokUrls(session), reply_markup=mainKeyboard, parse_mode='HTML')
+        else: await bot.send_message(userId, getTranslation(userId, 'ngrok.error'), reply_markup=mainKeyboard, parse_mode='HTML')
 
 async def sessionsHandler(userInfo):
     if dbUsers.isUnregistered(userInfo.userId):
