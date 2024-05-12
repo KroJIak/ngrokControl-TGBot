@@ -8,7 +8,6 @@ import json
 import logging
 from modules.ngrokConnect import NgrokWorker
 
-# docker run --net=host -it -e NGROK_AUTHTOKEN=2dRFvmzXNWzlEb5jJORCJAOoyZ2_64w38XZkWqZJ7CE8TJYBZ --name ngrok-container ngrok/ngrok:latest http 2468
 # SETTINGS
 const = ConstPlenty()
 botConfig = getConfigObject('config/bot.ini', const.commonPath)
